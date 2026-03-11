@@ -1,0 +1,23 @@
+
+build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bronkhorst-flexflow"
+version = "0.1"
+authors = [
+  { name="Uhland Weissker", email="u.weissker@ifw-dresden.de" },
+  { name="Edwin Zschetzsche", email="e.zschetzsche@ifw-dresden.de" },
+]
+description = "Python package for controlling Bronkhorst Flexi-Flow Massflowcontrollers"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = ["bronkhorst-propar == 1.2.0",
+                "pyserial >= 3"]
