@@ -4,7 +4,8 @@ import serial
 from serial.tools.list_ports import comports
 
 #from .propar import propar
-from propar import propar
+#from propar import propar
+import propar
 
 class Bronkhorst():
     GAS_INDEX = {
