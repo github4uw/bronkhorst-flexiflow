@@ -128,14 +128,46 @@ class Bronkhorst():
         val = self.instrument.read(34, 0, 65)
         return val
 
+    def set_inlet_pressure_setpoint(self, p_set:float) -> bool:
+        """set pressure setpoint of gas inlet
+        Useful when using the bronkhorst flowmeter for pressure regulation.
+        Use set_control_function() to access different control modes.
+        Refer to the manual chapter 3.2.5 'Switching control function'
+
+        Returns
+            True on success
+            False otherwise
+        """
+        if p_set < 0.0:
+            return False
+        self.instrument.write(34, 3, 65, p_set)
+        return True
+
     def get_outlet_pressure(self) -> float:
         """returns outlet pressure in bar"""
         self._logger.debug("get outlet pressure")
         val = self.instrument.read(35, 0, 65)
         return val
 
-    def set_control_function(self, function:int):
-        """set control function of instrument
+    def set_outlet_pressure_setpoint(self, p_set:float) -> bool:
+        """set pressure setpoint of gas outlet
+        Useful when using the bronkhorst flowmeter for pressure regulation.
+        Use set_control_function() to access different control modes.
+        Refer to the manual chapter 3.2.5 'Switching control function'
+
+        Returns
+            True on success
+            False otherwise
+        """
+        if p_set < 0.0:
+            return False
+        self.instrument.write(35, 3, 65, p_set)
+        return True
+
+    def set_control_function(self, function:str) -> bool:
+        """set control function of instrument.
+        Refer to manual chapter 3.2.5 'Switching control function'.
+
             possible control functions:
               - "Flow"
               - "Inlet_Pressure"
@@ -149,12 +181,11 @@ class Bronkhorst():
             self._logger.warning(f"control function {function} not known")
             return
         command_num = self.CONTROL_FUNCTIONS[function]
-        if not self.instrument.write():
+        success = self.instrument.write(115, 10, 0, command_num)
+        if not sucess:
             self._logger.error("function not recognized")
-            return
-        # set outlet pressure
-        #p = self.get_outlet_pressure()
-        #self.instrument.write(35, 3, 65, p+0.05)
+            return False
+        return True
 
     def __write_parameter(self, dde_nr:int, value) -> bool:
         """internal function to set parameter to value"""
