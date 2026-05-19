@@ -182,7 +182,7 @@ class Bronkhorst():
             return
         command_num = self.CONTROL_FUNCTIONS[function]
         success = self.instrument.write(115, 10, 0, command_num)
-        if not sucess:
+        if not success:
             self._logger.error("function not recognized")
             return False
         return True
